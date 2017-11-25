@@ -1,15 +1,15 @@
 use std::io::Result;
-use std::os::unix::io::{AsRawFd, RawFd};
+use std::os::unix::io::{AsRawFd, RawFd, FromRawFd};
+use std::net::UdpSocket;
 
 #[cfg(target_os = "macos")]
 extern "C" {
     fn open_utun(num :u64) -> i32;
-    fn close_utun(sock :i32);
 }
 
 #[derive(Debug)]
 pub struct UtunSocket {
-    sock: RawFd,
+    sock: UdpSocket,
     name: String
 }
 
@@ -17,9 +17,10 @@ impl UtunSocket {
     #[cfg(target_os = "macos")]
     pub fn new() -> Result<UtunSocket> {
         for utun_n in 0..255 {
-            let sock = unsafe { open_utun(utun_n) as i32};
-            if sock >= 0 {
+            let fd = unsafe { open_utun(utun_n) as i32};
+            if fd >= 0 {
                 let name = format!("utun{}",1);
+                let sock = unsafe { UdpSocket::from_raw_fd(fd) };
                 return Ok(UtunSocket { sock, name });
             }
         }
@@ -39,13 +40,7 @@ impl UtunSocket {
 
 impl AsRawFd for UtunSocket {
     fn as_raw_fd(&self) -> RawFd {
-        self.sock
-    }
-}
-
-impl Drop for UtunSocket {
-    fn drop(&mut self) {
-        unsafe { close_utun(self.sock) }
+        self.sock.as_raw_fd()
     }
 }
 
@@ -67,8 +62,8 @@ mod tests {
         let iflist_before = get_interfaces();
         let res = UtunSocket::new();
         assert!(res.is_ok());
-        let sock = res.unwrap();
-        let if_name = sock.if_name();
+        let utun_sock = res.unwrap();
+        let if_name = utun_sock.if_name();
         let iflist_after = get_interfaces();
         assert!(!iflist_before.contains(if_name));
         assert!( iflist_after.contains(if_name));

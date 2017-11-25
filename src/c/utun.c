@@ -45,6 +45,3 @@ int32_t open_utun(uint64_t num) {
     return fd;
 }
 
-void close_utun(int32_t fd) {
-    close(fd);
-}
