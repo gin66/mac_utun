@@ -1,0 +1,17 @@
+[package]
+name = "mac_utun"
+version = "0.1.0"
+authors = ["Jochen Kiemes <jochen@kiemes.de>"]
+build = "build.rs"
+license = "MIT"
+description = "Create utun device for macos"
+homepage = "https://github.com/gin66/mac_utun"
+repository = "https://github.com/gin_66/mac_utun"
+keywords = ["utun", "tun", "macos", "network"]
+readme = "README.md"
+
+[dependencies]
+
+[build-dependencies]
+gcc = "0.3"
+
