@@ -1,6 +1,6 @@
 [package]
 name = "mac_utun"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Jochen Kiemes <jochen@kiemes.de>"]
 build = "build.rs"
 license = "MIT"
@@ -13,5 +13,5 @@ readme = "README.md"
 [dependencies]
 
 [build-dependencies]
-gcc = "0.3"
+cc = "1.0.3"
 

@@ -2,10 +2,12 @@
 // Copyright (C) 2015-2017  Dennis Schwerdel
 // This software is licensed under GPL-3 or newer (see LICENSE.md)
 
-extern crate gcc;
+extern crate cc;
 
 fn main() {
-    gcc::Build::new()
+    if cfg!(target_os = "macos") {
+        cc::Build::new()
                 .file("src/c/utun.c")
                 .compile("utun");
+    }
 }
