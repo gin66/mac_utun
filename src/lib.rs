@@ -9,7 +9,7 @@ extern "C" {
 
 #[derive(Debug)]
 pub struct UtunSocket {
-    sock: UdpSocket,
+    pub sock: UdpSocket,
     name: String
 }
 
