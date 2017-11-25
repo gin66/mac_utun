@@ -1,6 +1,7 @@
 use std::io::Result;
 use std::os::unix::io::{AsRawFd, RawFd};
 
+#[cfg(target_os = "macos")]
 extern "C" {
     fn open_utun(num :u64) -> i32;
     fn close_utun(sock :i32);
@@ -13,13 +14,21 @@ pub struct UtunSocket {
 }
 
 impl UtunSocket {
+    #[cfg(target_os = "macos")]
     pub fn new() -> Result<UtunSocket> {
-        let sock = unsafe { open_utun(1) as i32};
-        if sock < 0 {
-            return Err(std::io::Error::last_os_error());
+        for utun_n in 0..255 {
+            let sock = unsafe { open_utun(utun_n) as i32};
+            if sock >= 0 {
+                let name = format!("utun{}",1);
+                return Ok(UtunSocket { sock, name });
+            }
         }
-        let name = format!("utun{}",1);
-        Ok(UtunSocket { sock, name })
+        Err(std::io::Error::last_os_error())
+    }
+
+    #[cfg(not(target_os = "macos"))]
+    pub fn new() -> Result<UtunSocket> {
+        Err("Can open utun only on macos")
     }
 
     pub fn if_name(&self) -> &String {
