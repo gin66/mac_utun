@@ -1,9 +1,7 @@
 mac_utun
 ========
 
-Create utun device on macos.
-
-### Usage
+# Create utun device on macos.
 
 ## Import
 
