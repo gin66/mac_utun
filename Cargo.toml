@@ -1,6 +1,6 @@
 [package]
 name = "mac_utun"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["Jochen Kiemes <jochen@kiemes.de>"]
 build = "build.rs"
 license = "MIT"
