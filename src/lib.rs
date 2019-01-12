@@ -1,4 +1,4 @@
-use std::io::Result;
+use std::io::{Error, ErrorKind, Result};
 use std::os::unix::io::FromRawFd;
 use std::net::UdpSocket;
 
@@ -22,7 +22,7 @@ pub fn get_utun() -> Result<(UdpSocket,String)> {
 
 #[cfg(not(target_os = "macos"))]
 pub fn get_utun() -> Result<(UdpSocket,String)> {
-    Err("Can open utun only on macos")
+    Err(ErrorKind::NotFound as Error)
 }
 
 #[cfg(test)]
