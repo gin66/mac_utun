@@ -22,7 +22,7 @@ pub fn get_utun() -> Result<(UdpSocket,String)> {
 
 #[cfg(not(target_os = "macos"))]
 pub fn get_utun() -> Result<(UdpSocket,String)> {
-    Err(ErrorKind::NotFound as Error)
+    Err(Error::from(ErrorKind::NotFound))
 }
 
 #[cfg(test)]
