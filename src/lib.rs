@@ -12,7 +12,7 @@ pub fn get_utun() -> Result<(UdpSocket,String)> {
     for utun_n in 0..255 {
         let fd = unsafe { open_utun(utun_n) as i32 };
         if fd >= 0 {
-            let name = format!("utun{}",1);
+            let name = format!("utun{}", utun_n);
             let sock = unsafe { UdpSocket::from_raw_fd(fd) };
             return Ok((sock, name));
         }
