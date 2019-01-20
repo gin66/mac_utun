@@ -1,6 +1,6 @@
 [package]
 name = "mac_utun"
-version = "0.5.2"
+version = "0.6.0"
 authors = ["Jochen Kiemes <jochen@kiemes.de>"]
 build = "build.rs"
 license = "MIT"
@@ -9,9 +9,9 @@ homepage = "https://github.com/gin66/mac_utun"
 repository = "https://github.com/gin66/mac_utun"
 keywords = ["utun", "tun", "macos", "network"]
 readme = "README.md"
+edition = "2018"
 
 [dependencies]
 
 [build-dependencies]
 cc = "1.0.3"
-
